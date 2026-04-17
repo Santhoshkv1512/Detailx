@@ -67,7 +67,7 @@ services:
     depends_on:
       - backend
     environment:
-      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://backend:3001}
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:3001}
       NEXT_PUBLIC_STUDIO_PHONE: ${STUDIO_PHONE:-+91 98765 43210}
       NEXT_PUBLIC_STUDIO_WHATSAPP: ${STUDIO_WHATSAPP:-919876543210}
       NEXT_PUBLIC_STUDIO_ADDRESS: ${STUDIO_ADDRESS:-DetailX Studio, Kochi, Kerala}
@@ -75,9 +75,12 @@ services:
     ports:
       - "3000:3000"
 
+  # nginx is for production deployment only (requires SSL certs in ./ssl/)
+  # To enable: docker compose --profile production up
   nginx:
     image: nginx:alpine
     restart: unless-stopped
+    profiles: ["production"]
     depends_on:
       - frontend
       - backend
@@ -87,11 +90,6 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
       - ./ssl:/etc/nginx/ssl:ro
-    healthcheck:
-      test: ["CMD", "nginx", "-t"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
 
 volumes:
   postgres_data:
