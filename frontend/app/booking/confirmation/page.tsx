@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useState, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { getBookingStatus } from '@/lib/api'
@@ -8,7 +8,7 @@ import { getBookingStatus } from '@/lib/api'
 const STUDIO_PHONE = process.env.NEXT_PUBLIC_STUDIO_PHONE || '+91 98765 43210'
 const STUDIO_WHATSAPP = process.env.NEXT_PUBLIC_STUDIO_WHATSAPP || '919876543210'
 
-export default function ConfirmationPage() {
+function ConfirmationContent() {
   const searchParams = useSearchParams()
   const ref = searchParams.get('ref')
   const [booking, setBooking] = useState<any>(null)
@@ -120,5 +120,17 @@ function Row({ label, value, mono, green, muted }: { label: string; value: any; 
         {value ?? '—'}
       </span>
     </div>
+  )
+}
+
+export default function ConfirmationPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-[var(--green)] border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <ConfirmationContent />
+    </Suspense>
   )
 }

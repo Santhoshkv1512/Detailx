@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, Suspense } from 'react'
 import { useSearchParams } from 'next/navigation'
 import { fetchAdminBookings, updateBookingStatus } from '@/lib/api'
 import StatusBadge from '@/components/StatusBadge'
@@ -154,7 +154,7 @@ function Row({ label, value, mono, green }: { label: string; value: any; mono?: 
   )
 }
 
-export default function AdminBookingsPage() {
+function AdminBookingsContent() {
   const searchParams = useSearchParams()
   const [bookings, setBookings] = useState<any[]>([])
   const [meta, setMeta] = useState<any>({})
@@ -298,5 +298,17 @@ export default function AdminBookingsPage() {
         <Drawer booking={selectedBooking} onClose={() => setSelectedBooking(null)} onStatusChange={handleStatusChange} />
       )}
     </div>
+  )
+}
+
+export default function AdminBookingsPage() {
+  return (
+    <Suspense fallback={
+      <div className="p-8 flex justify-center">
+        <div className="w-8 h-8 border-2 border-[var(--green)] border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <AdminBookingsContent />
+    </Suspense>
   )
 }

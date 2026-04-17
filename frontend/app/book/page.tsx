@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useReducer, useEffect, useState } from 'react'
+import React, { useReducer, useEffect, useState, Suspense } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import toast from 'react-hot-toast'
 import { fetchServices, fetchSlots, initiateBooking, initiatePayment } from '@/lib/api'
@@ -132,7 +132,7 @@ function btnOutline(extra = '') {
   return `border border-[var(--border-card)] text-[var(--muted)] font-display text-xs px-6 py-3 rounded-full hover:border-[var(--silver)] hover:text-[var(--silver)] transition-all ${extra}`
 }
 
-export default function BookPage() {
+function BookWizard() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const [state, dispatch] = useReducer(reducer, initialState)
@@ -540,5 +540,17 @@ export default function BookPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function BookPage() {
+  return (
+    <Suspense fallback={
+      <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center">
+        <div className="w-10 h-10 border-2 border-[var(--green)] border-t-transparent rounded-full animate-spin" />
+      </div>
+    }>
+      <BookWizard />
+    </Suspense>
   )
 }
