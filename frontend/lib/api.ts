@@ -48,7 +48,7 @@ export async function fetchSlots(date: string) {
 }
 
 export async function initiateBooking(data: any) {
-  const res = await fetch(`${API_URL}/api/bookings`, {
+  const res = await fetch(`${API_URL}/api/bookings/initiate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(data),
@@ -61,10 +61,9 @@ export async function initiateBooking(data: any) {
 }
 
 export async function initiatePayment(bookingId: string) {
-  const res = await fetch(`${API_URL}/api/payments/initiate`, {
+  const res = await fetch(`${API_URL}/api/bookings/${bookingId}/payment/initiate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ bookingId }),
   })
   if (!res.ok) {
     const err = await res.json().catch(() => ({}))
@@ -84,7 +83,7 @@ export async function getBookingStatus(reference: string) {
 // ─── Admin ─────────────────────────────────────────────────────────────────
 
 export async function adminLogin(email: string, password: string) {
-  const res = await fetch(`${API_URL}/api/admin/login`, {
+  const res = await fetch(`${API_URL}/api/admin/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ email, password }),
