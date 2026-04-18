@@ -1,6 +1,6 @@
 import { Injectable, Inject } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
-import { REDIS_CLIENT } from './slots.module';
+import { REDIS_CLIENT } from './slots.constants';
 import Redis from 'ioredis';
 
 const AVAILABLE_TIMES = ['09:00', '10:00', '11:00', '12:00', '14:00', '15:00'];
