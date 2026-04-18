@@ -3,8 +3,9 @@ import { SlotsController } from './slots.controller';
 import { SlotsService } from './slots.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import Redis from 'ioredis';
+import { REDIS_CLIENT } from './slots.constants';
 
-export const REDIS_CLIENT = 'REDIS_CLIENT';
+export { REDIS_CLIENT };
 
 @Module({
   imports: [ConfigModule],
