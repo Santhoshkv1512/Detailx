@@ -102,11 +102,28 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════════════════════════
           SECTION 1 — HERO
       ═══════════════════════════════════════════════════════════════════════ */}
-      <section className="relative min-h-screen flex items-center bg-[var(--bg)] overflow-hidden">
+      <section className="relative min-h-screen flex items-center overflow-hidden bg-[#0a0a0a]">
 
-        {/* Carbon texture overlay */}
+        {/* Hero car background image */}
         <div
-          className="absolute inset-0 opacity-40 pointer-events-none"
+          className="absolute inset-0 bg-center bg-cover bg-no-repeat"
+          style={{ backgroundImage: "url('/hero-car.jpg')", opacity: 0.35 }}
+          aria-hidden="true"
+        />
+
+        {/* Left-to-right dark gradient so text stays legible */}
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              'linear-gradient(100deg, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.75) 50%, rgba(10,10,10,0.2) 100%)',
+          }}
+          aria-hidden="true"
+        />
+
+        {/* Subtle carbon-fibre texture */}
+        <div
+          className="absolute inset-0 opacity-20 pointer-events-none"
           style={{
             backgroundImage:
               'repeating-linear-gradient(45deg, transparent, transparent 2px, rgba(255,255,255,0.03) 2px, rgba(255,255,255,0.03) 4px)',
