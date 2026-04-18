@@ -6,6 +6,7 @@ RUN npm ci
 COPY . .
 RUN npx prisma generate
 RUN npm run build
+RUN npx tsc --module commonjs --target ES2021 --esModuleInterop true --skipLibCheck true prisma/seed.ts
 
 FROM node:20-bookworm-slim
 WORKDIR /app
@@ -15,4 +16,4 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/prisma ./prisma
 COPY package*.json ./
 EXPOSE 3001
-CMD ["sh", "-c", "npx prisma migrate deploy && TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' npx ts-node prisma/seed.ts && node dist/main"]
+CMD ["sh", "-c", "npx prisma migrate deploy && node prisma/seed.js && node dist/main"]
